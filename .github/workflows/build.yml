@@ -38,6 +38,7 @@ jobs:
       - name: 🔧 Patch Buildozer SDK Path
         run: |
           mkdir -p ~/.buildozer/android/platform
+          rm -rf ~/.buildozer/android/platform/android-sdk
           ln -s $ANDROID_SDK_ROOT ~/.buildozer/android/platform/android-sdk
 
       - name: ⚙️ Build APK
