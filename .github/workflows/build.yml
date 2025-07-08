@@ -1,1 +1,32 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Kivy APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup environment
+        run: |
+          sudo apt update
+          sudo apt install -y libffi-dev python3-pip openjdk-17-jdk unzip zip git
+          pip install --upgrade buildozer cython
+
+      - name: Init and Build APK
+        run: |
+          buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: bin/*.apk
 
