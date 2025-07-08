@@ -32,14 +32,18 @@ jobs:
       - name: ✅ Accept SDK Licenses
         run: yes | sdkmanager --licenses
 
-      - name: 🛠️ Install Required Build Tools
-        run: sdkmanager "build-tools;36.0.0"
+      - name: 🛠 Install Required Android Build Tools
+        run: sdkmanager "platform-tools" "platforms;android-33" "build-tools;34.0.0"
 
-      - name: ⚙️ Build the APK with Buildozer
+      - name: 🔧 Patch Buildozer SDK Path
         run: |
-          buildozer android debug
+          mkdir -p ~/.buildozer/android/platform
+          ln -s $ANDROID_SDK_ROOT ~/.buildozer/android/platform/android-sdk
 
-      - name: 📤 Upload APK Artifact
+      - name: ⚙️ Build APK
+        run: buildozer android debug
+
+      - name: 📤 Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: my-kivy-app
