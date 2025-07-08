@@ -29,6 +29,10 @@ jobs:
           echo '### User Sources for Android SDK Manager' > $HOME/.android/repositories.cfg
           yes | sdkmanager --licenses || true
 
+      - name: Install required Android Build Tools manually
+        run: |
+          yes | sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" "tools" || true
+
       - name: Build APK with Buildozer
         run: |
           buildozer android debug
